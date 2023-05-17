@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, Select, MenuItem, TextareaAutosize, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     { id: 5, label: 'Other', value: 'Other' }
   ];
 
-function MaterialAccordion({ id, title, dob, gen, cont, description, deleteElement }) {
+function MaterialAccordion({ id, first, last, pic, dob, gen, cont, description, deleteElement }) {
     const g = menuItems.filter(item => item.value.toLowerCase() === gen)
     function calculateAge(x) {
         const today = new Date();
@@ -68,7 +70,7 @@ function MaterialAccordion({ id, title, dob, gen, cont, description, deleteEleme
     const [del, delElement] = useState('');
     const [open, setOpen] = useState(false);
     const [error, setError] = useState('');
-    const [originalState, setOriginalState] = useState({ id, title, dob, gen, cont, description, deleteElement });
+    const [originalState, setOriginalState] = useState({ id, first, last, dob, gen, cont, description, deleteElement });
     
       const handleCancel = () => {
         setAge(calculateAge(dob));
@@ -131,7 +133,13 @@ function MaterialAccordion({ id, title, dob, gen, cont, description, deleteEleme
     <>
         <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{title}</Typography>
+          <Stack direction="row" spacing={2}>
+            <Avatar alt="Remy Sharp" src={pic} />
+          </Stack>
+          <span style={{ marginRight: '8px' }}></span>
+            <Typography variant="h6">{first}</Typography>
+            <span style={{ marginRight: '8px' }}></span>
+            <Typography variant="h6">{last}</Typography>
         </AccordionSummary>
         <AccordionDetails>
             <div style={{ width: '50%' }}>
@@ -239,7 +247,9 @@ function AccordionList({ accordions, delElem }) {
         matchesSearchText(accordion.description) ? (
           <MaterialAccordion key={accordion.id}
             id={accordion.id}
-            title={accordion.first}  
+            first={accordion.first} 
+            last={accordion.last}
+            pic={accordion.picture} 
             dob={accordion.dob}
             gen={accordion.gender}
             cont={accordion.country}

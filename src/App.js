@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import jsonData from "./data/celebrities.json";
+import AccordionList from './accordian/Accordian'
 
 function App() {
+  const [acc, setAccordian] = useState(jsonData);
+
+  const delElem = (i) => {
+    const updatedAcc = acc.filter(obj => obj.id !== i)
+    setAccordian(updatedAcc);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AccordionList accordions={acc} delElem={delElem}/>
     </div>
   );
 }
